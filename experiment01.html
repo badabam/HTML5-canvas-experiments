@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Canvas experiment</title>
-	<link href="canvas.css" rel="stylesheet" type="text/css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script>
-
-		$(document).ready(function() {
-		
-			var canvas = $("#myCanvas"); //get canvas
-			var context = canvas.get(0).getContext("2d");
-			
-			$(window).resize(resizeCanvas); 
-			function resizeCanvas() {
-				canvas.attr("width", $(window).get(0).innerWidth);
-				canvas.attr("height", $(window).get(0).innerHeight);
-				
-				//ADD CONTENT HERE:
-				context.fillRect(40, 40, 100, 100);
-				
-				
-			};
-			
-			resizeCanvas();
-		});
-
-	</script>
-</head>
-	<canvas id="myCanvas" width="500" height="500">
-		<p>Ihr Browser kann kein canvas. Schade.</p>
-	</canvas>
+    <head>
+    	<meta charset="utf-8">
+    	<title>Canvas experiment</title>
+    	<link href="canvas.css" rel="stylesheet" type="text/css">
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    	<script>
+    		$(document).ready(function() {
+    		
+                var alpha = 1;
+    			var canvas = $("#myCanvas"); //get canvas
+    			var context = canvas.get(0).getContext("2d");
+    			
+                
+    			$(window).resize(updateCanvas);
+                
+                var interval = setInterval(updateAlpha, 10);
+                function updateAlpha() {
+                    if(alpha >= 0.2) {
+                        alpha -= 0.001;
+                    } else {
+                        clearInterval(interval);
+                    }
+                    updateCanvas();
+                }
+    			
+                function updateCanvas() {
+                    canvas.attr("width", $(window).get(0).innerWidth);
+        			canvas.attr("height", $(window).get(0).innerHeight);
+                    context.fillStyle = 'rgba(255,30,30,' + alpha + ')';
+    				context.fillRect(50, 50, 200, 200);
+                }
+                updateCanvas();
+    		});
+    
+    	</script>
+    </head>
+    <body>
+    	<canvas id="myCanvas" width="500" height="500">
+    		<p>Ihr Browser kann kein canvas. Schade.</p>
+    	</canvas>
+    </body>
 </html>
