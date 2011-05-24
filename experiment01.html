@@ -16,12 +16,12 @@
                 canvas = $("#myCanvas"); //get canvas
                 context = canvas.get(0).getContext("2d");
                 $(window).resize(updateCanvas);
-                $(window).mousemove(updateMouse);    
+                $(window).mousemove(onMouseMove);    
                 onTimer();
-                updateMouse();
+                onMouseMove();
             });
             
-            function updateMouse(e) {
+            function onMouseMove(e) {
                 var mousePos =  e.pageX + "/" + e.pageY ;
                 $("#mousePos").text("MousePosition: " + mousePos);
             }
@@ -37,10 +37,8 @@
             }
 			
             function updateCanvas() {
-                /*
                 canvas.attr("width", $(window).get(0).innerWidth);
     			canvas.attr("height", $(window).get(0).innerHeight);
-                */
                 context.fillStyle = 'rgba(255,30,30,' + alpha + ')';
 				context.fillRect(50, 50, 200, 200);
             }
@@ -48,9 +46,9 @@
     	</script>
     </head>
     <body>
+        <p id="mousePos">MousePosition</p>
     	<canvas id="myCanvas" width="300" height="300">
     		<p>Ihr Browser kann kein canvas. Schade.</p>
     	</canvas>
-        <p id="mousePos"></p>
     </body>
 </html>
