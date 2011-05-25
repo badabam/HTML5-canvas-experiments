@@ -6,28 +6,40 @@
 	<link href="canvas.css" rel="stylesheet" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script>
+    
+        /*
+         * What this does:
+         * Wait for document ready
+         * Update canvas size on resize (must redraw everything).
+         * Draw a simple rectangle.
+         */
 
-		$(document).ready(function() {
-		
-			var canvas = $("#myCanvas"); //get canvas
-			var context = canvas.get(0).getContext("2d");
-			
-			$(window).resize(resizeCanvas); 
-			function resizeCanvas() {
-				canvas.attr("width", $(window).get(0).innerWidth);
-				canvas.attr("height", $(window).get(0).innerHeight);
-				
-				//ADD CONTENT HERE:
-				context.fillRect(40, 40, 100, 100);
-				
-			};
-			
+        var canvas; 
+        var context;
+
+		$(document).ready(setupCanvas);
+        
+        function setupCanvas() {
+            canvas = $("#myCanvas"); //get canvas
+    		context = canvas.get(0).getContext("2d");    
+            $(window).resize(resizeCanvas); 
 			resizeCanvas();
-		});
+        }
 
+        function resizeCanvas() {
+			canvas.attr("width", $(window).get(0).innerWidth);
+			canvas.attr("height", $(window).get(0).innerHeight);
+            drawContent();
+		};
+        
+        funciton drawContent() {
+			context.fillRect(40, 40, 100, 100);
+        }
 	</script>
 </head>
+    <!-- Beware: canvas ignores %. So 100% would be 100 pixels. -->
 	<canvas id="myCanvas" width="500" height="500">
+        <!-- All inside of canvas will be ignored, if browser knows canvas -->
 		<p>Ihr Browser kann kein canvas. Schade.</p>
 	</canvas>
 </html>
