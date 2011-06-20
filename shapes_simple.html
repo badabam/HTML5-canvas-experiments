@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+	<title>Canvas experiment</title>
+	<link rel="stylesheet" href="canvas.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+        /*
+         * What this does:
+         * Draw different shapes.
+         * Update canvas size on resize (must redraw everything).
+         */
+         
+        var lineCap = ['butt','round','square'];
+        var lineJoin = ['round','bevel','miter'];
+
+		var canvas;
+        var context;
+
+        $(document).ready(createCanvas);
+        $(window).resize(resizeCanvas);
+        
+        function createCanvas() {
+			canvas = $("#myCanvas"); //get canvas
+			context = canvas.get(0).getContext("2d");
+			resizeCanvas();
+        }
+        
+        function resizeCanvas() {
+			canvas.attr("width", $(window).get(0).innerWidth);
+			canvas.attr("height", $(window).get(0).innerHeight);
+            
+            // Filled box
+			context.fillRect(10, 10, 50, 50); // Draw black box
+            
+            // Outlined box
+            context.strokeRect(70, 10, 50, 50); // Draw black stroke box
+            
+            // Outlined triangle
+            context.beginPath(); // Start the path
+            context.moveTo(35, 70); // Set the path origin
+            context.lineTo(60, 110); // Set the path destination 
+            context.lineTo(10, 110); // Set the path destination 
+            context.closePath(); // Close the path 
+            context.stroke(); // Outline the path
+            
+            // Filled triangle
+            context.beginPath(); // Start the path
+            context.moveTo(60 + 35, 70); // Set the path origin
+            context.lineTo(60 + 60, 110); // Set the path destination 
+            context.lineTo(60 + 10, 110); // Set the path destination 
+            context.closePath(); // Close the path 
+            context.fill(); // Fill the path
+            
+            /*
+             * Filled circle. Usage:
+             * context.arc(x, y, radius, startangle, endangle, anticlockwise);
+             */
+            context.beginPath(); // Start the path
+            context.arc(35, 150, 25, 0, Math.PI * 2, false); // Draw a circle
+            context.closePath(); // Close the path
+            context.fill(); // Fill the path
+            
+            // Outlined circle
+            context.beginPath(); // Start the path
+            context.arc(60 + 35, 150, 25, 0, Math.PI * 2, false); // Draw a circle
+            context.closePath(); // Close the path
+            context.stroke(); // Fill the path
+            
+            // Half outlined circle
+            context.beginPath(); // Start the path
+            context.arc(35, 210, 25, 0, Math.PI, true); // Draw a half circle
+            context.closePath(); // Close the path
+            context.stroke(); // Fill the path
+
+            // Half filled circle
+            context.beginPath(); // Start the path
+            context.arc(60 + 35, 210 - 25, 25, 0, Math.PI, false); // Draw a half circle
+            context.closePath(); // Close the path
+            context.fill(); // Fill the path
+
+            /*****************
+            STYLES
+            ******************/
+            
+            var offsetX = 150;
+
+            // Filled box
+            context.fillStyle = "rgb(255, 0, 0)"; //set style
+			context.fillRect(offsetX + 10, 10, 50, 50);
+            
+            resetStyle();
+            
+            // Outlined box
+            context.strokeStyle = "rgb(255, 0, 0)"; //set stroke style
+            context.strokeRect(offsetX +70, 10, 50, 50);
+            
+            resetStyle();
+            
+            // Outlined triangle
+            context.strokeStyle = "rgb(0,100, 200)";
+            context.lineWidth = 5; // set line width
+            context.beginPath();
+            context.moveTo(offsetX + 35, 70);
+            context.lineTo(offsetX + 60, 110);
+            context.lineTo(offsetX + 10, 110);
+            context.closePath();
+            context.stroke();
+            
+            resetStyle();
+            
+            // Filled triangle
+            context.strokeStyle = "rgb(0,100, 200)";
+            context.fillStyle = "rgb(255,200,100)";
+            context.lineWidth = 5;
+            context.beginPath();
+            context.moveTo(offsetX + 60 + 35, 70);
+            context.lineTo(offsetX + 60 + 60, 110);
+            context.lineTo(offsetX + 60 + 10, 110);
+            context.closePath();
+            context.fill();
+            context.stroke();
+            
+            resetStyle();
+
+            // 2nd outlined triangle
+            context.lineWidth = 8; // set line width
+            context.lineJoin = lineJoin[0];
+            context.beginPath();
+            context.moveTo(offsetX + 35, 60 + 70);
+            context.lineTo(offsetX + 60, 60 + 110);
+            context.lineTo(offsetX + 10, 60 + 110);
+            context.closePath();
+            context.stroke();
+            
+            resetStyle();
+            
+            // 2nd filled triangle
+            context.lineWidth = 8;
+            context.lineJoin = lineJoin[1];
+            context.beginPath();
+            context.moveTo(offsetX + 60 + 35, 60 + 70);
+            context.lineTo(offsetX + 60 + 60, 60 + 110);
+            context.lineTo(offsetX + 60 + 10, 60 + 110);
+            context.closePath();
+            context.stroke();
+            
+            resetStyle();
+            
+            context.lineWidth = 8;
+            for(var i = 0; i < 3; i++)
+            {
+                context.lineCap = lineCap[i];
+                context.beginPath();
+                context.moveTo(offsetX + 10 , 190 + i * 10);
+                context.lineTo(offsetX + 10 + 50, 190 + i * 10);
+                context.stroke();
+            }
+
+            
+            context.beginPath();
+            var randomAngle = Math.random() * 360;
+            context.arc(offsetX + 60 + 35, 200, 15, toRad(randomAngle), toRad(randomAngle + 180), false); // Draw a half circle
+            context.closePath();
+            context.fill();
+            
+            function toRad(degree) {
+                return degree * Math.PI/180;   
+            }
+            
+            function resetStyle() {
+                context.fillStyle = "rgb(0,0,0)";
+                context.strokeStyle = "rgb(0,0,0)";
+                context.lineWidth = 1;
+            }
+		};
+
+	</script>
+</head>
+	<canvas id="myCanvas" width="1000" height="500">
+		<p>Ihr Browser kann kein canvas. Schade.</p>
+	</canvas>
+</html>

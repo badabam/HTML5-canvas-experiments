@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-	<meta charset="utf-8">
 	<title>Canvas experiment</title>
-	<link href="canvas.css" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="canvas.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script>
     
@@ -37,9 +37,11 @@
         }
 	</script>
 </head>
+<body>
     <!-- Beware: canvas ignores %. So 100% would be 100 pixels. -->
 	<canvas id="myCanvas" width="500" height="500">
         <!-- All inside of canvas will be ignored, if browser knows canvas -->
 		<p>Ihr Browser kann kein canvas. Schade.</p>
 	</canvas>
+</body>   
 </html>
