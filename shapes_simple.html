@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
 	<title>Canvas experiment</title>
-	<link rel="stylesheet" href="canvas.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/canvas.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script>
         /*
          * What this does:
@@ -17,6 +17,8 @@
 
 		var canvas;
         var context;
+        var canvasWidth;
+        var canvasHeight;
 
         $(document).ready(createCanvas);
         $(window).resize(resizeCanvas);
@@ -25,14 +27,37 @@
 			canvas = $("#myCanvas"); //get canvas
 			context = canvas.get(0).getContext("2d");
 			resizeCanvas();
+            loop();
+        }
+        
+        function loop() {
+            draw();
+            setTimeout(loop, 500);
         }
         
         function resizeCanvas() {
-			canvas.attr("width", $(window).get(0).innerWidth);
+            canvas.attr("width", $(window).get(0).innerWidth);
 			canvas.attr("height", $(window).get(0).innerHeight);
+            canvasWidth = canvas.width();
+            canvasHeight = canvas.height();
+            draw();
+        }
+        
+        function toRad(degree) {
+            return degree * Math.PI/180;   
+        }
+        
+        function resetStyle() {
+            context.fillStyle = "rgb(0,0,0)";
+            context.strokeStyle = "rgb(0,0,0)";
+            context.lineWidth = 1;
+        }
+        
+        function draw() {
+            context.clearRect(0,0, canvasWidth, canvasHeight);
             
             // Filled box
-			context.fillRect(10, 10, 50, 50); // Draw black box
+    		context.fillRect(10, 10, 50, 50); // Draw black box
             
             // Outlined box
             context.strokeRect(70, 10, 50, 50); // Draw black stroke box
@@ -163,18 +188,8 @@
             var randomAngle = Math.random() * 360;
             context.arc(offsetX + 60 + 35, 200, 15, toRad(randomAngle), toRad(randomAngle + 180), false); // Draw a half circle
             context.closePath();
-            context.fill();
-            
-            function toRad(degree) {
-                return degree * Math.PI/180;   
-            }
-            
-            function resetStyle() {
-                context.fillStyle = "rgb(0,0,0)";
-                context.strokeStyle = "rgb(0,0,0)";
-                context.lineWidth = 1;
-            }
-		};
+            context.fill();   
+        }
 
 	</script>
 </head>

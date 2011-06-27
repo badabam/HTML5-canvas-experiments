@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Canvas experiment</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/canvas.css">
+    <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.13.custom.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="js/jquery-1.5.1.min.js"></script>
+    <script src="js/jquery-ui-1.8.13.custom.min.js"></script>
+    <style>
+        body {padding: 20px}
+        #box {width:20px; height:20px; display:inline; background-color=#ff0000}
+    </style>
+    <script>
+    
+        /*
+         * What this does:
+         * Wait for document ready
+         * Draw and erase
+         */
+
+        var canvas;
+        var context;
+        
+        var lastStyleCanvas;
+        var lastStyleContext;
+        
+		$(document).ready(setup);
+        
+        function setup() {
+            canvas = $("#myCanvas"); //get canvas
+    		context = canvas.get(0).getContext("2d");    
+            createButtons();
+            setupStyleView();
+        }
+        
+        function createButtons() {
+            $('input:submit').button();
+            $('input[name=draw]').click(draw);
+            $('input[name=style]').click(changeStyle);
+            $('input[name=clear]').click(clear);
+            $('input[name=reset]').click(reset);
+            
+            $('input[name=draw]').css({"background-color": "rgb(200,50,100)",
+                                        "color": "#ffffff"});
+        }
+        
+        function setupStyleView() {
+            lastStyleCanvas = $('#lastStyle');
+            lastStyleContext = lastStyleCanvas.get(0).getContext("2d");
+            $('p, #lastStyle').css("display", "inline");
+            $('#lastStyle').css("display", "inline");
+            lastStyleContext.fillRect(0, 0, lastStyleCanvas.width(), lastStyleCanvas.height());
+        }
+        
+        function changeStyle() {
+            var style = "rgb("
+                                + Math.round(100 + Math.random() * 155) + ","
+                                + Math.round(100 + Math.random() * 155) + ","
+                                + Math.round(100 + Math.random() * 155) + ")";
+            
+            context.fillStyle = style;
+            lastStyleContext.fillStyle = style;
+            lastStyleContext.fillRect(0, 0, lastStyleCanvas.width(), lastStyleCanvas.height());
+        }
+
+        function draw() {
+			context.fillRect(Math.random() * canvas.width(),
+                            Math.random() * canvas.height(),
+                            10,
+                            10);
+        }
+        
+        function clear() {
+            //clears without deleting style
+            context.clearRect(0, 0, canvas.width(), canvas.height());
+        }
+        
+        function reset() {
+            //clears canvas and resets styles
+            canvas.attr("width", canvas.width());
+            canvas.attr("height", canvas.height());
+            lastStyleContext.fillStyle = context.fillStyle;
+            lastStyleContext.fillRect(0, 0, lastStyleCanvas.width(), lastStyleCanvas.height());
+        }
+	</script>
+</head>
+<body>
+    <div id="options">
+        <input name="style" type="submit" value="Change style!">
+        <input name="draw" type="submit" value="Draw!">
+        <input name="clear" type="submit" value="Clear!">
+        <input name="reset" type="submit" value="Clear and reset!">
+    </div>
+    <!-- Beware: canvas ignores %. So 100% would be 100 pixels. -->
+	<canvas id="myCanvas" width="800" height="450">
+        <!-- All inside of canvas will be ignored, if browser knows canvas -->
+		<p>Ihr Browser kann kein canvas. Schade.</p>
+	</canvas
+    <p>Current style: </p><canvas id="lastStyle" width="12" height="12"></canvas>
+</body>   
+</html>

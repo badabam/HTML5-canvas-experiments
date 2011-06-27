@@ -3,8 +3,8 @@
 <head>
 	<title>Canvas experiment</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="canvas.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/canvas.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script>
     
         /*
@@ -16,7 +16,9 @@
 
         var canvas;
         var context;
-
+        var canvasWidth;
+        var canvasHeight;
+        
 		$(document).ready(setupCanvas);
         
         function setupCanvas() {
@@ -27,12 +29,14 @@
         }
 
         function resizeCanvas() {
-			canvas.attr("width", $(window).get(0).innerWidth);
+    		canvas.attr("width", $(window).get(0).innerWidth);
 			canvas.attr("height", $(window).get(0).innerHeight);
-            drawContent();
+            canvasWidth = canvas.width();
+            canvasHeight = canvas.height();
+            draw();
 		};
         
-        function drawContent() {
+        function draw() {
 			context.fillRect(40, 40, 100, 100);
         }
 	</script>
