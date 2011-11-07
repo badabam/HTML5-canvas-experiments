@@ -42,11 +42,11 @@
             function onTimer() {
                 if(alpha >= 0.2) {
                     alpha -= 0.01;
+                    drawContent();
+                    timeout = setTimeout(onTimer, 33);
                 } else {
                     clearTimeout(timeout);
                 }
-                drawContent();
-                timeout = setTimeout(onTimer, 33);
             }
 			
             function updateCanvasSize() {
